@@ -1,6 +1,6 @@
 {
   "name": "pecan-ui",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "files": [
     "dist"
@@ -11,8 +11,10 @@
     ".": {
       "import": "./dist/pecan-ui.js",
       "require": "./dist/pecan-ui.umd.cjs"
-    }
+    },
+    "./dist/pecan-ui.css": "./dist/pecan-ui.css"
   },
+  "sideEffect": false,
   "scripts": {
     "dev": "vite",
     "prebuild": "rm -rf dist",
