@@ -23,10 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": [
-    "src",
-    "example",
-    "lib/Button/Button.stories.ts",
-    "lib/Button/Button.stories.tsx"
-  ]
+  "include": ["src", "example", "lib"]
 }
