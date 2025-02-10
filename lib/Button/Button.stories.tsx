@@ -15,6 +15,12 @@ export const Default: Story = {
     children: "Click me!",
   },
 };
+export const TestCN: Story = {
+  args: {
+    className: "bg-amber-300 p-10",
+    children: "Click me!",
+  },
+};
 
 export const Emoji: Story = {
   args: {

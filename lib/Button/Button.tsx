@@ -1,9 +1,16 @@
 import { ReactNode } from "react";
-type ButtonProps = { children: ReactNode };
+import { twMerge } from "tailwind-merge";
+type ButtonProps = { children: ReactNode; className: string };
 
-export const Button = ({ children }: ButtonProps): ReactNode => {
+export const Button = ({ children, className }: ButtonProps): ReactNode => {
+  const mergedCNs = twMerge(
+    "p-[1px]",
+    "bg-blue-300",
+    "cursor-pointer",
+    className
+  );
   return (
-    <button className="bg-amber-400 cursor-pointer" type="button">
+    <button className={mergedCNs} type="button">
       {children}
     </button>
   );
