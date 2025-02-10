@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
-type ButtonProps = { children: ReactNode; className: string };
+type ButtonProps = { children: ReactNode; className?: string };
 
 export const Button = ({ children, className }: ButtonProps): ReactNode => {
   const mergedCNs = twMerge(

@@ -8,7 +8,7 @@ describe(`Component: ${Button.name}`, () => {
     expect(container).toMatchInlineSnapshot(`
       <div>
         <button
-          class="bg-amber-400 cursor-pointer p-10"
+          class="p-[1px] bg-blue-300 cursor-pointer"
           type="button"
         >
           My button
