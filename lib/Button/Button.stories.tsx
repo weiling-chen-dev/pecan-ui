@@ -25,7 +25,6 @@ export const TestCN: Story = {
 export const ColorButton: Story = {
   args: {
     type: "primary",
-    color: "amber",
     children: "Click me!",
   },
 };
@@ -57,7 +56,7 @@ export const DefaultButton: Story = {
 
 export const DefaultButton1: Story = {
   args: {
-    type: "default",
+    type: "primary",
     children: "Click me!",
   },
 };
