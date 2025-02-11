@@ -190,7 +190,7 @@ const genTypes = ({
           resolveTailwindBgColor(color, ghostVariant),
           resolveTailwindTextColor(color, ghostVariant),
           resolveTailwindBorder(color, ghostVariant),
-          "bg-transparent"
+          "bg-transparent hover:bg-transaction"
         );
       }
 
@@ -208,7 +208,7 @@ const genTypes = ({
           danger
             ? "border-1 border-dashed border-danger-500"
             : "border-1 border-dashed border-white",
-          "bg-transparent"
+          "bg-transparent hover:bg-transaction"
         );
       }
 
