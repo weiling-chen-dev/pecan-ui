@@ -22,6 +22,54 @@ export const TestCN: Story = {
   },
 };
 
+export const ColorButton: Story = {
+  args: {
+    type: "primary",
+    color: "amber",
+    children: "Click me!",
+  },
+};
+export const ColorVariantButton: Story = {
+  args: {
+    variant: "solid",
+    color: "primary",
+    children: "Click me!",
+  },
+};
+
+export const ColorVariantButton2: Story = {
+  args: {
+    variant: "dashed",
+    color: "secondary",
+    children: "Click me!",
+  },
+};
+
+export const DefaultButton: Story = {
+  parameters: { backgrounds: { value: "Sky" } },
+  args: {
+    type: "link",
+    // ghost: true,
+    // danger: true,
+    children: "Click me!",
+  },
+};
+
+export const DefaultButton1: Story = {
+  args: {
+    type: "default",
+    children: "Click me!",
+  },
+};
+
+export const FilledDefaultButton1: Story = {
+  args: {
+    color: "default",
+    variant: "filled",
+    children: "Click me!",
+  },
+};
+
 export const Emoji: Story = {
   args: {
     children: "😅",
