@@ -67,7 +67,7 @@ const resolveTailwindBgColor = (color?: Colors, variant?: Variants) => {
 
   if (variant === "text") {
     return {
-      default: "bg-transparent hover:bg-default-shadow",
+      default: "bg-transparent hover:bg-gray-100",
       primary: "bg-transparent hover:bg-primary-100",
       secondary: "bg-transparent hover:bg-secondary-100",
       danger: "bg-transparent hover:bg-danger-100",
@@ -204,10 +204,14 @@ const genTypes = ({
     case "dashed": {
       if (ghost) {
         return twJoin(
-          danger ? "text-danger-500" : "text-white",
+          // text
           danger
-            ? "border-1 border-dashed border-danger-500"
-            : "border-1 border-dashed border-white",
+            ? "text-danger-500 hover:text-danger-400"
+            : "text-white hover:text-primary-500",
+          // border
+          danger
+            ? "border-1 border-dashed border-danger-500 hover:border-danger-400"
+            : "border-1 border-dashed border-white hover:border-primary-500",
           "bg-transparent hover:bg-transaction"
         );
       }
@@ -245,10 +249,12 @@ const genTypes = ({
     default: {
       if (ghost) {
         return twJoin(
-          danger ? "text-danger-500" : "text-white",
           danger
-            ? "border-1 border-solid border-danger-500"
-            : "border-1 border-solid border-white",
+            ? "text-danger-500 hover:text-danger-400"
+            : "text-white hover:text-primary-500",
+          danger
+            ? "border-1 border-solid border-danger-500 hover:border-danger-400"
+            : "border-1 border-solid border-white hover:border-primary-500",
           "bg-transparent"
         );
       }
