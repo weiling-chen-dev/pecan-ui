@@ -132,11 +132,6 @@ const resolveTailwindTextColor = (color?: Colors, variant?: Variants) => {
     return "text-white hover:text-white";
   }
 
-  if (variant === "link") {
-    if (color === "danger") return "text-danger-500 hover:text-danger-400";
-    return "text-primary-500 hover:text-primary-400";
-  }
-
   if (variant === "filled" || variant === "text") {
     return {
       default: "text-default-dark hover:text-default-dark",
@@ -153,7 +148,7 @@ const resolveTailwindTextColor = (color?: Colors, variant?: Variants) => {
       lime: "text-lime-500 hover:text-lime-500",
     }[color];
   }
-  // dash & outlined
+  // dash & outlined & Link
   return {
     default: "text-default-dark hover:text-primary-500",
     primary: "text-primary-500 hover:text-primary-400",
