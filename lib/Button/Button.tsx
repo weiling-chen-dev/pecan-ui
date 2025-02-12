@@ -222,7 +222,7 @@ const genTypes = ({
     }
 
     case "link": {
-      const color = danger ? "danger" : "default";
+      const color = danger ? "danger" : "primary";
       const variant = "link";
       return twJoin(
         resolveTailwindBgColor(color, variant),
