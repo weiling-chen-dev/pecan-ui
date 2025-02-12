@@ -89,7 +89,7 @@ const resolveTailwindBorder = (color?: Colors, variant?: Variants): string => {
   if (!color || !variant) return "";
 
   const borderColor = {
-    default: "border-default-light hover:border-primary-500",
+    default: "border-default-shadow hover:border-primary-500",
     primary: "border-primary-500 hover:border-primary-400",
     secondary: "border-secondary-500 hover:border-secondary-400",
     danger: "border-danger-500 hover:border-danger-400",
