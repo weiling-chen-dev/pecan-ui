@@ -46,7 +46,7 @@ const resolveTailwindBgColor = (color?: Colors, variant?: Variants) => {
   }
   if (variant === "filled") {
     return {
-      default: "bg-default-light hover:bg-default-shadow",
+      default: "bg-gray-100 hover:bg-gray-200",
       primary: "bg-primary-100 hover:bg-primary-200",
       secondary: "bg-secondary-100 hover:bg-secondary-200",
       danger: "bg-danger-100 hover:bg-danger-200",
@@ -89,7 +89,7 @@ const resolveTailwindBorder = (color?: Colors, variant?: Variants): string => {
   if (!color || !variant) return "";
 
   const borderColor = {
-    default: "border-default-shadow hover:border-primary-500",
+    default: "border-gray-200 hover:border-primary-500",
     primary: "border-primary-500 hover:border-primary-400",
     secondary: "border-secondary-500 hover:border-secondary-400",
     danger: "border-danger-500 hover:border-danger-400",
@@ -111,6 +111,20 @@ const resolveTailwindBorder = (color?: Colors, variant?: Variants): string => {
 
     case "solid": {
       const solidBorderBase = "border-1 border-solid";
+      const borderColor = {
+        default: "border-primary-500 hover:border-primary-400",
+        primary: "border-primary-500 hover:border-primary-400",
+        secondary: "border-secondary-500 hover:border-secondary-400",
+        danger: "border-danger-500 hover:border-danger-400",
+        amber: "border-amber-500 hover:border-amber-400",
+        cyan: "border-cyan-500 hover:border-cyan-400",
+        emerald: "border-emerald-500 hover:border-emerald-400",
+        green: "border-green-500 hover:border-green-400",
+        teal: "border-teal-500 hover:border-teal-400",
+        sky: "border-sky-500 hover:border-sky-400",
+        gray: "border-gray-500 hover:border-gray-400",
+        lime: "border-lime-500 hover-border-lime-400",
+      }[color];
       return solidBorderBase + " " + borderColor;
     }
 
@@ -121,7 +135,7 @@ const resolveTailwindBorder = (color?: Colors, variant?: Variants): string => {
 
     case "filled": {
       const filledBorderColor = {
-        default: "border-default-light hover:border-default-shadow",
+        default: "border-gray-100 hover:border-gray-200",
         primary: "border-primary-100 hover:border-primary-200",
         secondary: "border-secondary-100 hover:border-secondary-200",
         danger: "border-danger-100 hover:border-danger-200",
@@ -153,7 +167,7 @@ const resolveTailwindTextColor = (color?: Colors, variant?: Variants) => {
 
   if (variant === "filled" || variant === "text") {
     return {
-      default: "text-default-dark hover:text-default-dark",
+      default: "text-black hover:text-black",
       primary: "text-primary-500 hover:text-primary-500",
       secondary: "text-secondary-500 hover:text-secondary-500",
       danger: "text-danger-500 hover:text-danger-500",
@@ -169,7 +183,7 @@ const resolveTailwindTextColor = (color?: Colors, variant?: Variants) => {
   }
   // dash & outlined & Link
   return {
-    default: "text-default-dark hover:text-primary-500",
+    default: "text-black hover:text-primary-500",
     primary: "text-primary-500 hover:text-primary-400",
     secondary: "text-secondary-500 hover:text-secondary-400",
     danger: "text-danger-500 hover:text-danger-400",
@@ -309,8 +323,6 @@ export const Button = ({
     className
   );
 
-  // console.log(mergedCNs);
-
   return (
     <WaveContainer>
       <button className={mergedCNs} type="button">
@@ -330,19 +342,25 @@ type WaveInfo = {
 const getHoverBorderColor = (
   twClassString: string
 ): { color: string; opacity: number } => {
-  // console.log(twClassString);
   if (!twClassString) return { color: "none", opacity: 0 };
-  const fullHoverBorder = twClassString
+  const fullBorder = twClassString
     .split(" ")
     .filter((tw) => tw.includes("border") && !tw.includes("hover:"))
     .pop();
 
-  const color = fullHoverBorder?.split("-")[1];
+  const fullHoverBorder = twClassString
+    .split(" ")
+    .filter((tw) => tw.includes("hover:border"))
+    .pop();
 
-  const colorOpacity = Number(fullHoverBorder?.split("-")[2]);
-  console.log(color);
-  if (color === "default" || color === "white") {
-    return { color: "primary", opacity: 500 };
+  const hoverColor = fullHoverBorder?.split("-")[1];
+
+  const color = fullBorder?.split("-")[1];
+
+  const colorOpacity = Number(fullBorder?.split("-")[2]);
+
+  if (color !== hoverColor) {
+    return { color: hoverColor ?? "none", opacity: 500 };
   }
   return { color: color ?? "none", opacity: colorOpacity ?? 0 };
 };

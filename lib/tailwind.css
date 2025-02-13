@@ -3,10 +3,6 @@
 @theme {
   --animate-wave: wave 1s ease-in;
 
-  --color-default-light: var(--color-gray-100);
-  --color-default-shadow: var(--color-gray-200);
-  --color-default-dark: var(--color-black);
-
   --color-primary-50: var(--color-sky-50);
   --color-primary-100: var(--color-sky-100);
   --color-primary-200: var(--color-sky-200);
