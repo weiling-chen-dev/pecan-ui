@@ -336,13 +336,13 @@ type WaveInfo = {
   width: number;
   height: number;
   color: string;
-  opacity: number;
+  brightness: number;
 };
 
 const getHoverBorderColor = (
   twClassString: string
-): { color: string; opacity: number } => {
-  if (!twClassString) return { color: "none", opacity: 0 };
+): { color: string; brightness: number } => {
+  if (!twClassString) return { color: "none", brightness: 0 };
   const fullBorder = twClassString
     .split(" ")
     .filter((tw) => tw.includes("border") && !tw.includes("hover:"))
@@ -357,12 +357,12 @@ const getHoverBorderColor = (
 
   const color = fullBorder?.split("-")[1];
 
-  const colorOpacity = Number(fullBorder?.split("-")[2]);
+  const colorBrightness = Number(fullBorder?.split("-")[2]);
 
   if (color !== hoverColor) {
-    return { color: hoverColor ?? "none", opacity: 500 };
+    return { color: hoverColor ?? "none", brightness: 500 };
   }
-  return { color: color ?? "none", opacity: colorOpacity ?? 0 };
+  return { color: color ?? "none", brightness: colorBrightness ?? 0 };
 };
 
 const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
@@ -381,7 +381,9 @@ const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
 
   const addWave = (e: React.MouseEvent) => {
     const container = (e?.target as HTMLInputElement)?.getBoundingClientRect();
-    const { color, opacity } = getHoverBorderColor(children?.props?.className);
+    const { color, brightness } = getHoverBorderColor(
+      children?.props?.className
+    );
 
     const width = container?.width;
     const height = container?.height;
@@ -390,22 +392,22 @@ const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
       width &&
       height &&
       color &&
-      opacity &&
+      brightness &&
       color !== "none" &&
-      opacity !== 0
+      brightness !== 0
     ) {
-      setWaves([...waves, { width, height, color, opacity }]);
+      setWaves([...waves, { width, height, color, brightness }]);
     }
   };
 
   return (
     <div onMouseDown={addWave}>
-      {waves.map(({ width, height, color, opacity }, i) => (
+      {waves.map(({ width, height, color, brightness }, i) => (
         <Wave
           width={width}
           height={height}
           color={color}
-          opacity={opacity}
+          brightness={brightness}
           key={i}
         ></Wave>
       ))}
@@ -414,7 +416,7 @@ const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
   );
 };
 
-const Wave = ({ width, height, color, opacity }: WaveInfo) => {
+const Wave = ({ width, height, color, brightness }: WaveInfo) => {
   return (
     <div
       className="rounded-md animate-click-wave"
@@ -423,7 +425,7 @@ const Wave = ({ width, height, color, opacity }: WaveInfo) => {
         width: width,
         height: height,
         boxShadow: `0 0 0 5px currentcolor`,
-        color: `var(--color-${color}-${opacity})`,
+        color: `var(--color-${color}-${brightness})`,
         opacity: 0,
         pointerEvents: "none",
       }}
