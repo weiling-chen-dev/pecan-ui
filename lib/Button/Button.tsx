@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 
 type PresetColors =
@@ -117,6 +117,25 @@ const resolveTailwindBorder = (color?: Colors, variant?: Variants): string => {
     case "dashed": {
       const dashedBorderBase = "border-1 border-dashed";
       return dashedBorderBase + " " + borderColor;
+    }
+
+    case "filled": {
+      const filledBorderColor = {
+        default: "border-default-light hover:border-default-shadow",
+        primary: "border-primary-100 hover:border-primary-200",
+        secondary: "border-secondary-100 hover:border-secondary-200",
+        danger: "border-danger-100 hover:border-danger-200",
+        amber: "border-amber-100 hover:border-amber-200",
+        cyan: "border-cyan-100 hover:border-cyan-200",
+        emerald: "border-emerald-100 hover:border-emerald-200",
+        green: "border-green-100 hover:border-green-200",
+        teal: "border-teal-100 hover:border-teal-200",
+        sky: "border-sky-100 hover:border-sky-200",
+        gray: "border-gray-100 hover:border-gray-200",
+        lime: "border-lime-100 hover:border-lime-200",
+      }[color];
+      const solidBorderBase = "border-1 border-solid";
+      return solidBorderBase + " " + filledBorderColor;
     }
     // no border
     default: {
@@ -290,11 +309,108 @@ export const Button = ({
     className
   );
 
-  console.log(mergedCNs);
+  // console.log(mergedCNs);
 
   return (
-    <button className={mergedCNs} type="button">
+    <WaveContainer>
+      <button className={mergedCNs} type="button">
+        {children}
+      </button>
+    </WaveContainer>
+  );
+};
+
+type WaveInfo = {
+  width: number;
+  height: number;
+  color: string;
+  opacity: number;
+};
+
+const getHoverBorderColor = (
+  twClassString: string
+): { color: string; opacity: number } => {
+  console.log(twClassString);
+  if (!twClassString) return { color: "none", opacity: 0 };
+  const fullHoverBorder = twClassString
+    .split(" ")
+    .filter((tw) => tw.includes("border") && !tw.includes("hover:"))
+    .pop();
+
+  const color = fullHoverBorder?.split("-")[1];
+  const colorOpacity = Number(fullHoverBorder?.split("-")[2]);
+  console.log(color);
+  console.log(colorOpacity);
+  return { color: color ?? "none", opacity: colorOpacity ?? 0 };
+};
+
+const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
+  const [waves, setWaves] = useState<WaveInfo[]>([]);
+
+  useEffect(() => {
+    let id: number | undefined | NodeJS.Timeout = undefined;
+    if (waves.length > 0) {
+      id = setTimeout(() => {
+        setWaves(waves.slice(1));
+        clearTimeout(id);
+      }, 650);
+    }
+    return () => clearTimeout(id);
+  }, [waves]);
+
+  const addWave = (e: React.MouseEvent) => {
+    const container = (e?.target as HTMLInputElement)?.getBoundingClientRect();
+    const { color, opacity } = getHoverBorderColor(children?.props?.className);
+
+    const width = container?.width;
+    const height = container?.height;
+
+    if (
+      width &&
+      height &&
+      color &&
+      opacity &&
+      color !== "none" &&
+      opacity !== 0
+    ) {
+      setWaves([...waves, { width, height, color, opacity }]);
+    }
+  };
+
+  return (
+    <div onMouseDown={addWave}>
+      {waves.map(({ width, height, color, opacity }, i) => (
+        <Wave
+          width={width}
+          height={height}
+          color={color}
+          opacity={opacity}
+          key={i}
+        ></Wave>
+      ))}
       {children}
-    </button>
+    </div>
+  );
+};
+
+const Wave = ({ width, height, color, opacity }: WaveInfo) => {
+  // console.log(color);
+  return (
+    <div
+      className=" rounded-md animate-click-wave"
+      style={{
+        position: "absolute",
+        width: width,
+        height: height,
+        boxShadow: `0 0 0 4px var(--color-${color}-${opacity})`,
+        opacity: 0,
+        zIndex: "auto",
+        // transition: "box-shadow 0.4s ease-out, opacity 2s ease-in-out",
+        // "-webkit-animation": "click-wave 0.65s",
+        // "-moz-animation": "click-wave 0.65s",
+        // animation: "click-wave 0.65s",
+        // backgroundColor: `var(--color-${color}-${opacity})`,
+      }}
+    ></div>
   );
 };

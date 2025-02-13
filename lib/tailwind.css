@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --animate-wave: wave 1s ease-in;
+
   --color-default-light: var(--color-gray-100);
   --color-default-shadow: var(--color-gray-200);
   --color-default-dark: var(--color-black);
@@ -151,9 +153,23 @@
 
   --color-black: #000;
   --color-white: #fff;
+
+  --animate-click-wave: click-wave 0.5s;
+  @keyframes click-wave {
+    0% {
+      opacity: 0.3;
+    }
+    80% {
+      opacity: 0.1;
+      /* transform: scale(2); */
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }
 
 .btn {
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  /* transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); */
 }
