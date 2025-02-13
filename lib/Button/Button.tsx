@@ -330,7 +330,7 @@ type WaveInfo = {
 const getHoverBorderColor = (
   twClassString: string
 ): { color: string; opacity: number } => {
-  console.log(twClassString);
+  // console.log(twClassString);
   if (!twClassString) return { color: "none", opacity: 0 };
   const fullHoverBorder = twClassString
     .split(" ")
@@ -338,9 +338,12 @@ const getHoverBorderColor = (
     .pop();
 
   const color = fullHoverBorder?.split("-")[1];
+
   const colorOpacity = Number(fullHoverBorder?.split("-")[2]);
   console.log(color);
-  console.log(colorOpacity);
+  if (color === "default" || color === "white") {
+    return { color: "primary", opacity: 500 };
+  }
   return { color: color ?? "none", opacity: colorOpacity ?? 0 };
 };
 
@@ -394,22 +397,17 @@ const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
 };
 
 const Wave = ({ width, height, color, opacity }: WaveInfo) => {
-  // console.log(color);
   return (
     <div
-      className=" rounded-md animate-click-wave"
+      className="rounded-md animate-click-wave"
       style={{
         position: "absolute",
         width: width,
         height: height,
-        boxShadow: `0 0 0 4px var(--color-${color}-${opacity})`,
+        boxShadow: `0 0 0 5px currentcolor`,
+        color: `var(--color-${color}-${opacity})`,
         opacity: 0,
-        zIndex: "auto",
-        // transition: "box-shadow 0.4s ease-out, opacity 2s ease-in-out",
-        // "-webkit-animation": "click-wave 0.65s",
-        // "-moz-animation": "click-wave 0.65s",
-        // animation: "click-wave 0.65s",
-        // backgroundColor: `var(--color-${color}-${opacity})`,
+        pointerEvents: "none",
       }}
     ></div>
   );

@@ -154,17 +154,19 @@
   --color-black: #000;
   --color-white: #fff;
 
-  --animate-click-wave: click-wave 0.5s;
+  --animate-click-wave: click-wave 0.5s ease-in;
   @keyframes click-wave {
     0% {
-      opacity: 0.3;
+      opacity: 0.4;
+      box-shadow: 0 0 0 0 currentcolor;
     }
     80% {
       opacity: 0.1;
-      /* transform: scale(2); */
+      box-shadow: 0 0 0 6px currentcolor;
     }
-    100% {
+    99% {
       opacity: 0;
+      box-shadow: 0 0 0 8px currentcolor;
     }
   }
 }
