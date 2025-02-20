@@ -1,4 +1,14 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+  cloneElement,
+  useRef,
+  MutableRefObject,
+} from "react";
+
+type WaveElement = HTMLButtonElement | HTMLInputElement | null;
 
 type WaveInfo = {
   rounded: string;
@@ -9,11 +19,14 @@ type WaveInfo = {
 };
 
 export const WaveContainer = ({
+  type,
   children,
 }: {
+  type: "Button" | "Radio";
   children: ReactElement;
 }): ReactNode => {
   const [waves, setWaves] = useState<WaveInfo[]>([]);
+  const childrenRef: MutableRefObject<WaveElement> = useRef<WaveElement>(null);
 
   useEffect(() => {
     let id: number | undefined | NodeJS.Timeout = undefined;
@@ -27,31 +40,66 @@ export const WaveContainer = ({
   }, [waves]);
 
   const addWave = (e: React.MouseEvent) => {
-    const container = (e?.target as HTMLInputElement)?.getBoundingClientRect();
-    const { color, brightness } = getHoverBorderColor(
-      children?.props?.className
-    );
+    if (childrenRef) {
+      if (type === "Button") {
+        const container = (
+          e?.target as HTMLInputElement
+        )?.getBoundingClientRect();
 
-    const { rounded } = getRounded(children?.props?.className);
+        const { color, brightness } = getHoverBorderColor(
+          children?.props?.className
+        );
 
-    const width = container?.width;
-    const height = container?.height;
+        const { rounded } = getRounded(children?.props?.className);
 
-    if (
-      width &&
-      height &&
-      color &&
-      brightness &&
-      color !== "none" &&
-      brightness !== 0 &&
-      rounded
-    ) {
-      setWaves([...waves, { width, height, color, brightness, rounded }]);
+        const width = container?.width;
+        const height = container?.height;
+
+        if (
+          width &&
+          height &&
+          color &&
+          brightness &&
+          color !== "none" &&
+          brightness !== 0 &&
+          rounded
+        ) {
+          setWaves([...waves, { width, height, color, brightness, rounded }]);
+        }
+      }
+      if (type === "Radio") {
+        const container = (
+          childrenRef.current?.childNodes[1] as HTMLSpanElement
+        )?.getBoundingClientRect();
+
+        const { color, brightness } = getHoverBorderColor(
+          children?.props?.children[1]?.props?.className
+        );
+
+        const { rounded } = getRounded(
+          children?.props?.children[1]?.props?.className
+        );
+
+        const width = container?.width;
+        const height = container?.height;
+
+        if (
+          width &&
+          height &&
+          color &&
+          brightness &&
+          color !== "none" &&
+          brightness !== 0 &&
+          rounded
+        ) {
+          setWaves([...waves, { width, height, color, brightness, rounded }]);
+        }
+      }
     }
   };
 
   return (
-    <span onMouseDown={addWave} className="inline-flex">
+    <span onMouseDown={addWave} className="flex">
       {waves.map(({ width, height, color, brightness, rounded }, i) => (
         <Wave
           rounded={rounded}
@@ -62,7 +110,11 @@ export const WaveContainer = ({
           key={i}
         ></Wave>
       ))}
-      {children}
+      {cloneElement(children, {
+        ref: (ref: WaveElement) => {
+          childrenRef.current = ref;
+        },
+      })}
     </span>
   );
 };
@@ -78,6 +130,7 @@ export const Wave = ({
     <span
       className={`animate-click-wave ${rounded}`}
       style={{
+        alignSelf: "center",
         position: "absolute",
         width: width,
         height: height,
