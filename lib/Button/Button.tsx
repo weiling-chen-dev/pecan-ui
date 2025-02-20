@@ -1,5 +1,6 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
+import { WaveContainer } from "../Wave";
 
 type PresetColors =
   | "amber"
@@ -329,106 +330,5 @@ export const Button = ({
         {children}
       </button>
     </WaveContainer>
-  );
-};
-
-type WaveInfo = {
-  width: number;
-  height: number;
-  color: string;
-  brightness: number;
-};
-
-const getHoverBorderColor = (
-  twClassString: string
-): { color: string; brightness: number } => {
-  if (!twClassString) return { color: "none", brightness: 0 };
-  const fullBorder = twClassString
-    .split(" ")
-    .filter((tw) => tw.includes("border") && !tw.includes("hover:"))
-    .pop();
-
-  const fullHoverBorder = twClassString
-    .split(" ")
-    .filter((tw) => tw.includes("hover:border"))
-    .pop();
-
-  const hoverColor = fullHoverBorder?.split("-")[1];
-
-  const color = fullBorder?.split("-")[1];
-
-  const colorBrightness = Number(fullBorder?.split("-")[2]);
-
-  if (color !== hoverColor) {
-    return { color: hoverColor ?? "none", brightness: 500 };
-  }
-  return { color: color ?? "none", brightness: colorBrightness ?? 0 };
-};
-
-const WaveContainer = ({ children }: { children: ReactElement }): ReactNode => {
-  const [waves, setWaves] = useState<WaveInfo[]>([]);
-
-  useEffect(() => {
-    let id: number | undefined | NodeJS.Timeout = undefined;
-    if (waves.length > 0) {
-      id = setTimeout(() => {
-        setWaves(waves.slice(1));
-        clearTimeout(id);
-      }, 650);
-    }
-    return () => clearTimeout(id);
-  }, [waves]);
-
-  const addWave = (e: React.MouseEvent) => {
-    const container = (e?.target as HTMLInputElement)?.getBoundingClientRect();
-    const { color, brightness } = getHoverBorderColor(
-      children?.props?.className
-    );
-
-    const width = container?.width;
-    const height = container?.height;
-
-    if (
-      width &&
-      height &&
-      color &&
-      brightness &&
-      color !== "none" &&
-      brightness !== 0
-    ) {
-      setWaves([...waves, { width, height, color, brightness }]);
-    }
-  };
-
-  return (
-    <div onMouseDown={addWave}>
-      {waves.map(({ width, height, color, brightness }, i) => (
-        <Wave
-          width={width}
-          height={height}
-          color={color}
-          brightness={brightness}
-          key={i}
-        ></Wave>
-      ))}
-      {children}
-    </div>
-  );
-};
-
-const Wave = ({ width, height, color, brightness }: WaveInfo) => {
-  return (
-    <div
-      className="rounded-md animate-click-wave"
-      style={{
-        position: "absolute",
-        width: width,
-        height: height,
-        boxShadow: `0 0 0 5px currentcolor`,
-        color: `var(--color-${color}-${brightness})`,
-        opacity: 0,
-        pointerEvents: "none",
-      }}
-    ></div>
   );
 };

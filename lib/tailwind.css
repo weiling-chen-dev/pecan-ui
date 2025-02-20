@@ -169,5 +169,37 @@
 
 .btn {
   cursor: pointer;
-  /* transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1); */
+}
+
+.radio {
+  cursor: pointer;
+}
+
+.box-checked::after {
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  height: 50%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  content: "";
+  animation-delay: 0.03s;
+  animation-duration: 0.15s;
+  animation-name: checkboxDotOut;
+}
+
+@keyframes checkboxDotOut {
+  0% {
+    scale: 0;
+  }
+  30% {
+    scale: 0;
+  }
+  70% {
+    scale: 0.9;
+  }
+  100% {
+    scale: 1;
+  }
 }

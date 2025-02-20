@@ -1,4 +1,4 @@
-import { Button } from "pecan-ui";
+import { Button, Radio } from "pecan-ui";
 import Layout from "./components/Layout";
 
 function App() {
@@ -179,6 +179,9 @@ function App() {
             Danger
           </Button>
         </div>
+      </Layout>
+      <Layout>
+        <Radio>Check me</Radio>
       </Layout>
     </>
   );

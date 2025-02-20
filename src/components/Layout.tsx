@@ -5,8 +5,8 @@ const Layout = ({
   paragraph,
   children,
 }: {
-  header: ReactNode;
-  paragraph: ReactNode;
+  header?: ReactNode;
+  paragraph?: ReactNode;
   children: ReactNode;
 }): ReactNode => {
   return (
