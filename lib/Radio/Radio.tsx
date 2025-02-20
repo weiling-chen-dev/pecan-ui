@@ -43,6 +43,7 @@ export const Radio = (props: RadioProps) => {
             rawChecked
               ? ["box-checked", "bg-primary-500", "border-primary-500"]
               : ["border-gray-300", "border-[1px]"],
+            "group-hover:border-primary-500",
             "hover:border-primary-500",
             "transition-all",
             "duration-200",
