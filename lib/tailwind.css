@@ -189,6 +189,17 @@
   animation-name: checkboxDotOut;
 }
 
+.disabled-checked::after {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  width: 60%;
+  height: 60%;
+  background-color: var(--color-gray-300);
+  border-radius: 50%;
+  content: "";
+}
+
 @keyframes checkboxDotOut {
   0% {
     scale: 0;

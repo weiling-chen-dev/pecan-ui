@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 import { WaveContainer } from "../Wave";
 
@@ -25,6 +25,7 @@ type ButtonProps = {
   ghost?: boolean;
   danger?: boolean;
   className?: string;
+  onClick?: (e?: MouseEvent) => void;
 };
 
 const resolveTailwindBgColor = (color?: Colors, variant?: Variants) => {
@@ -307,6 +308,7 @@ export const Button = ({
   ghost = false,
   className,
   children,
+  onClick,
 }: ButtonProps): ReactNode => {
   // prioritize the later class
   // color & variant >  danger > ghost > type
@@ -326,7 +328,13 @@ export const Button = ({
 
   return (
     <WaveContainer type="Button">
-      <button className={mergedCNs} type="button">
+      <button
+        className={mergedCNs}
+        type="button"
+        onClick={(e) => {
+          onClick?.(e);
+        }}
+      >
         {children}
       </button>
     </WaveContainer>

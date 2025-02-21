@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-const Layout = ({
+export const Layout = ({
   header,
   paragraph,
   children,
@@ -13,9 +13,11 @@ const Layout = ({
     <div className="m-10 space-y-4">
       <b>{header}</b>
       <p>{paragraph}</p>
-      <div className="flex gap-2">{children}</div>
+      {children}
     </div>
   );
 };
 
-export default Layout;
+export const FlexRow = ({ children }: { children: ReactNode }) => {
+  return <div className="flex gap-2">{children}</div>;
+};

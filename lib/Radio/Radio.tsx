@@ -3,6 +3,9 @@ import { twJoin, twMerge } from "tailwind-merge";
 import { WaveContainer } from "../Wave";
 
 type RadioProps = {
+  name?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value?: any;
   children: React.ReactNode;
   checked?: boolean;
   defaultChecked?: boolean;
@@ -11,7 +14,14 @@ type RadioProps = {
 };
 
 export const Radio = (props: RadioProps) => {
-  const { checked, defaultChecked = false, children, disabled = false } = props;
+  const {
+    name,
+    value,
+    checked = false,
+    defaultChecked = false,
+    children,
+    disabled = false,
+  } = props;
 
   const [rawChecked, setRawChecked] = useState(checked || defaultChecked);
 
@@ -34,6 +44,8 @@ export const Radio = (props: RadioProps) => {
         )}
       >
         <input
+          name={name}
+          value={value}
           disabled={disabled}
           checked={rawChecked}
           type="checkbox"
@@ -63,16 +75,19 @@ export const Radio = (props: RadioProps) => {
             disabled &&
               (rawChecked
                 ? [
-                    "bg-gray-300",
-                    "border-gray-300",
+                    "disabled-checked",
+                    "border-gray-200",
+                    "bg-gray-100",
                     "pointer-events-none",
                     "hover:border-gray-300",
                     "group-hover:border-gray-300",
                   ]
                 : [
+                    "bg-gray-100",
                     "pointer-events-none",
-                    "hover:border-gray-300",
-                    "group-hover:border-gray-300",
+                    "border-gray-200",
+                    "hover:border-gray-200",
+                    "group-hover:border-gray-200",
                   ])
           )}
         />
