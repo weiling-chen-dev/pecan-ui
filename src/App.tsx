@@ -212,6 +212,13 @@ function App() {
           Toggle disabled
         </Button>
       </Layout>
+      <Radio.Group
+        value={1}
+        options={[
+          { value: 1, label: "option 1" },
+          { value: 2, label: "option2" },
+        ]}
+      ></Radio.Group>
     </>
   );
 }

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 import { WaveContainer } from "../Wave";
+import RadioGroup from "./group";
+import { RadioGroupContext } from "./context";
 
 type RadioProps = {
   name?: string;
@@ -23,14 +25,22 @@ export const Radio = (props: RadioProps) => {
     disabled = false,
   } = props;
 
-  const [rawChecked, setRawChecked] = useState(checked || defaultChecked);
+  const { onChange: onGroupChange } = useContext(RadioGroupContext) ?? {};
+
+  const outerChecked = checked || defaultChecked;
+  const [innerChecked, setInnerChecked] = useState(outerChecked);
+  const mergedChecked = onGroupChange ? outerChecked : innerChecked;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
-    if (!("checked" in props)) {
-      setRawChecked(e.target.checked);
+
+    if (!onGroupChange) {
+      setInnerChecked(e.target.checked);
+    } else {
+      onGroupChange(e);
     }
   };
+
   return (
     <WaveContainer type="Radio" disabled={disabled}>
       <label
@@ -47,7 +57,7 @@ export const Radio = (props: RadioProps) => {
           name={name}
           value={value}
           disabled={disabled}
-          checked={rawChecked}
+          checked={mergedChecked}
           type="checkbox"
           className="absolute opacity-0 h-0 w-0 cursor-pointer"
           onChange={handleChange}
@@ -64,7 +74,7 @@ export const Radio = (props: RadioProps) => {
             "border-gray-300",
             "border-[1px]",
             "rounded-[50%]",
-            rawChecked
+            mergedChecked
               ? ["box-checked", "bg-primary-500", "border-primary-500"]
               : ["border-gray-300", "border-[1px]"],
             "group-hover:border-primary-500",
@@ -73,7 +83,7 @@ export const Radio = (props: RadioProps) => {
             "duration-200",
             "ease-out",
             disabled &&
-              (rawChecked
+              (mergedChecked
                 ? [
                     "disabled-checked",
                     "border-gray-200",
@@ -96,3 +106,5 @@ export const Radio = (props: RadioProps) => {
     </WaveContainer>
   );
 };
+
+Radio.Group = RadioGroup;
