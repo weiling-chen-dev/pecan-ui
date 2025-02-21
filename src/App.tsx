@@ -181,7 +181,14 @@ function App() {
         </div>
       </Layout>
       <Layout>
-        <Radio>Check me</Radio>
+        <div className="flex gap-6">
+          <Radio>Check me</Radio>
+          <Radio disabled>Check me</Radio>
+          <Radio checked>Check me</Radio>
+          <Radio disabled checked>
+            Check me
+          </Radio>
+        </div>
       </Layout>
     </>
   );

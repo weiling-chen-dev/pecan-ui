@@ -20,9 +20,11 @@ type WaveInfo = {
 
 export const WaveContainer = ({
   type,
+  disabled,
   children,
 }: {
   type: "Button" | "Radio";
+  disabled?: boolean;
   children: ReactElement;
 }): ReactNode => {
   const [waves, setWaves] = useState<WaveInfo[]>([]);
@@ -40,6 +42,7 @@ export const WaveContainer = ({
   }, [waves]);
 
   const addWave = (e: React.MouseEvent) => {
+    if (disabled === true) return;
     if (childrenRef) {
       if (type === "Button") {
         const container = (
