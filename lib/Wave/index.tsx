@@ -7,6 +7,7 @@ import {
   useRef,
   MutableRefObject,
 } from "react";
+import { twJoin } from "tailwind-merge";
 
 type WaveElement = HTMLButtonElement | HTMLInputElement | null;
 
@@ -22,10 +23,12 @@ export const WaveContainer = ({
   type,
   disabled,
   children,
+  className,
 }: {
-  type: "Button" | "Radio";
+  type: "Button" | "Radio" | "RadioButton";
   disabled?: boolean;
   children: ReactElement;
+  className?: string;
 }): ReactNode => {
   const [waves, setWaves] = useState<WaveInfo[]>([]);
   const childrenRef: MutableRefObject<WaveElement> = useRef<WaveElement>(null);
@@ -98,11 +101,34 @@ export const WaveContainer = ({
           setWaves([...waves, { width, height, color, brightness, rounded }]);
         }
       }
+      if (type === "RadioButton") {
+        const container = (
+          childrenRef.current as HTMLSpanElement
+        )?.getBoundingClientRect();
+
+        const { rounded } = getRounded(children?.props?.className);
+
+        const width = container?.width;
+        const height = container?.height;
+
+        if (width && height) {
+          setWaves([
+            ...waves,
+            {
+              width,
+              height,
+              color: "primary",
+              brightness: 500,
+              rounded,
+            },
+          ]);
+        }
+      }
     }
   };
 
   return (
-    <span onMouseDown={addWave} className="flex">
+    <span onMouseDown={addWave} className={twJoin("flex", className)}>
       {waves.map(({ width, height, color, brightness, rounded }, i) => (
         <Wave
           rounded={rounded}
@@ -177,6 +203,6 @@ const getRounded = (twClassString: string) => {
     rounded: twClassString
       .split(" ")
       .filter((tw) => tw.includes("rounded"))
-      .pop(),
+      .toString(),
   };
 };

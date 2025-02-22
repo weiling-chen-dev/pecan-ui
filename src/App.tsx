@@ -212,13 +212,47 @@ function App() {
           Toggle disabled
         </Button>
       </Layout>
-      <Radio.Group
-        value={1}
-        options={[
-          { value: 1, label: "option 1" },
-          { value: 2, label: "option2" },
-        ]}
-      ></Radio.Group>
+      <Layout>
+        <div className="flex gap-4">
+          <Radio.Group
+            value={1}
+            options={[
+              { value: 1, label: "option 1" },
+              { value: 2, label: "option 2" },
+              { value: 3, label: "option 3" },
+              { value: 4, label: "option 4", disabled: true },
+              { value: 5, label: "option 5" },
+            ]}
+          ></Radio.Group>
+        </div>
+      </Layout>
+      <Layout>
+        <Radio.Group
+          optionType="button"
+          value={1}
+          options={[
+            { value: 1, label: "option 1" },
+            { value: 2, label: "option 2" },
+            { value: 3, label: "option 3" },
+            { value: 4, label: "option 4", disabled: true },
+            { value: 5, label: "option 5" },
+          ]}
+        ></Radio.Group>
+      </Layout>
+      <Layout>
+        <Radio.Group
+          optionType="button"
+          buttonStyle="solid"
+          value={1}
+          options={[
+            { value: 1, label: "option 1" },
+            { value: 2, label: "option 2" },
+            { value: 3, label: "option 3" },
+            { value: 4, label: "option 4", disabled: true },
+            { value: 5, label: "option 5" },
+          ]}
+        ></Radio.Group>
+      </Layout>
     </>
   );
 }
