@@ -249,7 +249,6 @@ function App() {
             { value: 2, label: "option 2" },
             { value: 3, label: "option 3" },
             { value: 4, label: "option 4", disabled: true },
-            { value: 5, label: "option 5" },
           ]}
         ></Radio.Group>
       </Layout>

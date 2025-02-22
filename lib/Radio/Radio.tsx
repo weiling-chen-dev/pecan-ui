@@ -3,6 +3,7 @@ import { twJoin, twMerge } from "tailwind-merge";
 import { WaveContainer } from "../Wave";
 import RadioGroup from "./group";
 import { RadioGroupContext } from "./context";
+import { RadioButton } from "./RadioButton";
 
 type RadioProps = {
   name?: string;
@@ -108,3 +109,4 @@ export const Radio = (props: RadioProps) => {
 };
 
 Radio.Group = RadioGroup;
+Radio.Button = RadioButton;
