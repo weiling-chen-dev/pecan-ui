@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { twJoin, twMerge } from "tailwind-merge";
 import { WaveContainer } from "../Wave";
-import { RadioGroupContext } from "./context";
+import { RadioButtonContext, RadioGroupContext } from "./context";
 
 type RadioProps = {
   name?: string;
@@ -12,9 +12,6 @@ type RadioProps = {
   defaultChecked?: boolean;
   disabled?: boolean;
   onChange?: () => void;
-  buttonStyle?: "outline" | "solid";
-  isLast: boolean;
-  isFirst: boolean;
 };
 
 export const RadioButton = (props: RadioProps) => {
@@ -23,14 +20,12 @@ export const RadioButton = (props: RadioProps) => {
     value,
     checked = false,
     defaultChecked = false,
-    buttonStyle,
     children,
     disabled = false,
-    isLast,
-    isFirst,
   } = props;
 
   const { onChange: onGroupChange } = useContext(RadioGroupContext) ?? {};
+  const { isFirst, isLast, buttonStyle } = useContext(RadioButtonContext) ?? {};
 
   const outerChecked = checked || defaultChecked;
   const [innerChecked, setInnerChecked] = useState(outerChecked);
@@ -90,7 +85,6 @@ export const RadioButton = (props: RadioProps) => {
           className="absolute opacity-0 h-0 w-0 cursor-pointer"
           onChange={handleChange}
         ></input>
-
         <span
           className={twJoin(
             disabled && "text-gray-300",

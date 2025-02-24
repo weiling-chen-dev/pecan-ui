@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, useState } from "react";
-import { RadioGroupContext } from "./context";
+import { RadioButtonContext, RadioGroupContext } from "./context";
 import { Radio } from "pecan-ui";
 import { RadioButton } from "./RadioButton";
 
@@ -39,21 +39,25 @@ const RadioGroup = (props: RadioGroupProps) => {
         );
       });
     } else {
+      // radio button
       renderChildren = (
         <div className="flex">
           {options.map(({ value, label, disabled }, i) => {
+            const isFirst = i === 0;
+            const isLast = i === options.length - 1;
             return (
-              <RadioButton
-                key={i}
-                isFirst={i === 0}
-                isLast={i === options.length - 1}
-                buttonStyle={buttonStyle}
-                value={value}
-                disabled={disabled}
-                checked={String(value) === String(innerValue)}
+              <RadioButtonContext.Provider
+                value={{ isFirst, isLast, buttonStyle }}
               >
-                {label}
-              </RadioButton>
+                <RadioButton
+                  key={i}
+                  value={value}
+                  disabled={disabled}
+                  checked={String(value) === String(innerValue)}
+                >
+                  {label}
+                </RadioButton>
+              </RadioButtonContext.Provider>
             );
           })}
         </div>

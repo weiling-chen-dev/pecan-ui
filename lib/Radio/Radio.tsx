@@ -6,7 +6,6 @@ import { RadioGroupContext } from "./context";
 import { RadioButton } from "./RadioButton";
 
 type RadioProps = {
-  name?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value?: any;
   children: React.ReactNode;
@@ -18,7 +17,6 @@ type RadioProps = {
 
 export const Radio = (props: RadioProps) => {
   const {
-    name,
     value,
     checked = false,
     defaultChecked = false,
@@ -55,7 +53,6 @@ export const Radio = (props: RadioProps) => {
         )}
       >
         <input
-          name={name}
           value={value}
           disabled={disabled}
           checked={mergedChecked}
