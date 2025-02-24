@@ -20,12 +20,10 @@ type WaveInfo = {
 };
 
 export const WaveContainer = ({
-  type,
   disabled,
   children,
   className,
 }: {
-  type: "Button" | "Radio" | "RadioButton";
   disabled?: boolean;
   children: ReactElement;
   className?: string;
@@ -44,86 +42,28 @@ export const WaveContainer = ({
     return () => clearTimeout(id);
   }, [waves]);
 
-  const addWave = (e: React.MouseEvent) => {
+  const addWave = () => {
     if (disabled === true) return;
     if (childrenRef) {
-      if (type === "Button") {
-        const container = (
-          e?.target as HTMLInputElement
-        )?.getBoundingClientRect();
+      const { height, width, brightness, color, rounded } =
+        getWaveStyle(childrenRef?.current) ?? {};
 
-        const { color, brightness } = getHoverBorderColor(
-          children?.props?.className
-        );
+      const noEffect =
+        !height ||
+        !width ||
+        !brightness ||
+        !color ||
+        height === 0 ||
+        width === 0 ||
+        brightness === 0 ||
+        color === "none";
 
-        const { rounded } = getRounded(children?.props?.className);
+      if (noEffect) return;
 
-        const width = container?.width;
-        const height = container?.height;
-
-        if (
-          width &&
-          height &&
-          color &&
-          brightness &&
-          color !== "none" &&
-          brightness !== 0 &&
-          rounded
-        ) {
-          setWaves([...waves, { width, height, color, brightness, rounded }]);
-        }
-      }
-      if (type === "Radio") {
-        const container = (
-          childrenRef.current?.childNodes[1] as HTMLSpanElement
-        )?.getBoundingClientRect();
-
-        const { color, brightness } = getHoverBorderColor(
-          children?.props?.children[1]?.props?.className
-        );
-
-        const { rounded } = getRounded(
-          children?.props?.children[1]?.props?.className
-        );
-
-        const width = container?.width;
-        const height = container?.height;
-
-        if (
-          width &&
-          height &&
-          color &&
-          brightness &&
-          color !== "none" &&
-          brightness !== 0 &&
-          rounded
-        ) {
-          setWaves([...waves, { width, height, color, brightness, rounded }]);
-        }
-      }
-      if (type === "RadioButton") {
-        const container = (
-          childrenRef.current as HTMLSpanElement
-        )?.getBoundingClientRect();
-
-        const { rounded } = getRounded(children?.props?.className);
-
-        const width = container?.width;
-        const height = container?.height;
-
-        if (width && height) {
-          setWaves([
-            ...waves,
-            {
-              width,
-              height,
-              color: "primary",
-              brightness: 500,
-              rounded,
-            },
-          ]);
-        }
-      }
+      setWaves([
+        ...waves,
+        { height, width, brightness, color, rounded: rounded ?? "" },
+      ]);
     }
   };
 
@@ -173,9 +113,10 @@ export const Wave = ({
 };
 
 const getHoverBorderColor = (
-  twClassString: string
+  twClassString: string | undefined
 ): { color: string; brightness: number } => {
   if (!twClassString) return { color: "none", brightness: 0 };
+
   const fullBorder = twClassString
     .split(" ")
     .filter((tw) => tw.includes("border") && !tw.includes("hover:"))
@@ -198,11 +139,42 @@ const getHoverBorderColor = (
   return { color: color ?? "none", brightness: colorBrightness ?? 0 };
 };
 
-const getRounded = (twClassString: string) => {
+const getRounded = (twClassString: string | undefined) => {
+  if (!twClassString) return { rounded: "" };
   return {
     rounded: twClassString
       .split(" ")
       .filter((tw) => tw.includes("rounded"))
       .toString(),
   };
+};
+
+const getWaveStyle = (node: WaveElement) => {
+  if (!node) return null;
+
+  let waveContainer;
+
+  if (node.id === "button" || node.id === "radio-button") {
+    waveContainer = node;
+  }
+  if (node.id === "radio") {
+    const nodeArray = Array.from(node.childNodes) as Array<HTMLElement>;
+
+    waveContainer = nodeArray
+      .filter((children) => children?.id === "radio-check-box")
+      .pop() as HTMLSpanElement;
+  }
+
+  const { width, height } = waveContainer?.getBoundingClientRect() ?? {
+    width: 0,
+    height: 0,
+  };
+
+  const { color, brightness } = getHoverBorderColor(waveContainer?.className);
+
+  const { rounded } = getRounded(waveContainer?.className);
+
+  const waveColor = node.id === "radio-button" ? "primary" : color;
+
+  return { width, height, color: waveColor, rounded, brightness };
 };

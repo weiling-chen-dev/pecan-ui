@@ -217,11 +217,11 @@
 
 .default-button-radio-checked::before {
   position: absolute;
-  top: -1px;
-  left: -1px;
+  top: -0.5px;
+  left: -0.5px;
   content: " ";
-  width: 1px;
-  height: calc(100% + 2px);
+  width: 0.5px;
+  height: calc(100% + 1px);
   background-color: var(--color-primary-500);
   z-index: 1;
   z-index: 2;
@@ -229,11 +229,11 @@
 
 .default-button-radio-checked:hover::before {
   position: absolute;
-  top: -1px;
-  left: -1px;
+  top: -0.5px;
+  left: -0.5px;
   content: " ";
-  width: 1px;
-  height: calc(100% + 2px);
+  width: 0.5px;
+  height: calc(100% + 1px);
   background-color: var(--color-primary-400);
   z-index: 1;
   z-index: 2;

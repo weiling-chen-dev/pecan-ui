@@ -41,8 +41,9 @@ export const Radio = (props: RadioProps) => {
   };
 
   return (
-    <WaveContainer type="Radio" disabled={disabled}>
+    <WaveContainer disabled={disabled}>
       <label
+        id="radio"
         className={twMerge(
           "group",
           "cursor-pointer",
@@ -61,6 +62,7 @@ export const Radio = (props: RadioProps) => {
           onChange={handleChange}
         ></input>
         <span
+          id="radio-check-box"
           className={twMerge(
             "relative",
             "cursor-pointer",

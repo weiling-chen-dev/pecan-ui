@@ -43,11 +43,11 @@ export const RadioButton = (props: RadioProps) => {
 
   return (
     <WaveContainer
-      type="RadioButton"
       disabled={disabled}
       className={mergedChecked ? "z-1" : "z-0"}
     >
       <label
+        id="radio-button"
         className={twMerge(
           "transition-all",
           "duration-300",

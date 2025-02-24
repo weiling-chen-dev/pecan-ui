@@ -327,8 +327,9 @@ export const Button = ({
   );
 
   return (
-    <WaveContainer type="Button">
+    <WaveContainer>
       <button
+        id="button"
         className={mergedCNs}
         type="button"
         onClick={(e) => {
