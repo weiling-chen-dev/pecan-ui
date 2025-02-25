@@ -165,6 +165,14 @@ const getWaveStyle = (node: WaveElement) => {
       .pop() as HTMLSpanElement;
   }
 
+  if (node.id === "checkbox") {
+    const nodeArray = Array.from(node.childNodes) as Array<HTMLElement>;
+
+    waveContainer = nodeArray
+      .filter((children) => children?.id === "checkbox-check-box")
+      .pop() as HTMLSpanElement;
+  }
+
   const { width, height } = waveContainer?.getBoundingClientRect() ?? {
     width: 0,
     height: 0,

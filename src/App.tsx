@@ -1,4 +1,4 @@
-import { Button, Radio } from "pecan-ui";
+import { Button, Radio, Checkbox } from "pecan-ui";
 import { Layout, FlexRow } from "./components/Layout";
 import { useState } from "react";
 
@@ -252,6 +252,12 @@ function App() {
           ]}
         ></Radio.Group>
       </Layout>
+
+      <Checkbox>Helloooo!</Checkbox>
+      <Checkbox checked={true}>Helloooo!</Checkbox>
+      <Checkbox checked={true} disabled>
+        Helloooo!
+      </Checkbox>
     </>
   );
 }
