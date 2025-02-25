@@ -43,28 +43,28 @@ export const WaveContainer = ({
   }, [waves]);
 
   const addWave = () => {
-    if (disabled === true) return;
-    if (childrenRef) {
-      const { height, width, brightness, color, rounded } =
-        getWaveStyle(childrenRef?.current) ?? {};
+    if (disabled === true || !childrenRef) return;
 
-      const noEffect =
-        !height ||
-        !width ||
-        !brightness ||
-        !color ||
-        height === 0 ||
-        width === 0 ||
-        brightness === 0 ||
-        color === "none";
+    const { height, width, brightness, color, rounded } =
+      getWaveStyle(childrenRef.current) ?? {};
 
-      if (noEffect) return;
+    const noWaveEffect =
+      !height ||
+      !width ||
+      !brightness ||
+      !color ||
+      rounded === undefined ||
+      height === 0 ||
+      width === 0 ||
+      brightness === 0 ||
+      color === "none";
 
-      setWaves([
-        ...waves,
-        { height, width, brightness, color, rounded: rounded ?? "" },
-      ]);
-    }
+    if (noWaveEffect) return;
+
+    setWaves([
+      ...waves,
+      { height, width, brightness, color, rounded: rounded ?? "" },
+    ]);
   };
 
   return (
